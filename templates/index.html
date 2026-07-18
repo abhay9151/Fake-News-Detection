@@ -18,7 +18,7 @@
                         <p class="text-muted mb-0">Paste text or enter a news URL, choose a model, and get a prediction.</p>
                     </div>
 
-                    <form action="/predict" method="POST">
+                    <form action="{{ url_for('predict') }}" method="POST">
                         <div class="row g-3 mb-3">
                             <div class="col-md-4">
                                 <label class="form-label fw-semibold">Model</label>

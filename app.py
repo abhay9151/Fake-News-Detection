@@ -57,11 +57,16 @@ def predict():
                 "index.html",
                 prediction=f"Could not fetch URL: {str(e)}",
                 input_text=request.form.get("news_text", ""),
-                input_url=news_url
+                input_url=news_url,
+                model_name=model_name
             )
 
     if not news_text:
-        return render_template("index.html", prediction="Please enter news text or a valid URL.")
+        return render_template(
+            "index.html",
+            prediction="Please enter news text or a valid URL.",
+            model_name=model_name
+        )
 
     cleaned = clean_text(news_text)
     model = models[model_name]
@@ -85,6 +90,7 @@ def predict():
         lambda texts: predict_proba_for_lime(model, texts),
         num_features=8
     )
+
     explanation_list = exp.as_list()
 
     return render_template(
