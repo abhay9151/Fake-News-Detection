@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-11">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <h1 class="fw-bold text-primary">Fake News Detector</h1>
+                        <p class="text-muted mb-0">Paste text or enter a news URL, choose a model, and get a prediction.</p>
+                    </div>
+
+                    <form action="/predict" method="POST">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Model</label>
+                                <select name="model_name" class="form-select">
+                                    <option value="logistic" {% if model_name == 'logistic' %}selected{% endif %}>Logistic Regression</option>
+                                    <option value="random_forest" {% if model_name == 'random_forest' %}selected{% endif %}>Random Forest</option>
+                                    <option value="naive_bayes" {% if model_name == 'naive_bayes' %}selected{% endif %}>Naive Bayes</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold">News URL</label>
+                                <input type="url" class="form-control form-control-lg" name="news_url" placeholder="https://..." value="{{ input_url if input_url else '' }}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="news_text" class="form-label fw-semibold">Or Paste News Text</label>
+                            <textarea class="form-control form-control-lg" id="news_text" name="news_text" rows="8" placeholder="Enter news article or headline here...">{{ input_text if input_text else '' }}</textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Check News</button>
+                        </div>
+                    </form>
+
+                    {% if prediction %}
+                    <div class="alert alert-{{ color if color else 'secondary' }} mt-4 mb-0 text-center">
+                        <h4 class="mb-1">{{ prediction }}</h4>
+                        {% if confidence %}
+                        <p class="mb-0">Confidence: {{ confidence }}%</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    {% if explanation %}
+                    <div class="mt-4">
+                        <h5 class="fw-bold">Why this prediction?</h5>
+                        <ul class="list-group">
+                            {% for word, score in explanation %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ word }}</span>
+                                <span class="badge bg-info text-dark">{{ score|round(3) }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

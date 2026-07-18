@@ -1,0 +1,21 @@
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    min-height: 100vh;
+}
+
+.card {
+    backdrop-filter: blur(10px);
+}
+
+textarea {
+    resize: none;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #0d6efd, #0a58ca);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(90deg, #0a58ca, #084298);
+}
