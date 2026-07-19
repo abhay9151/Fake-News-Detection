@@ -116,7 +116,7 @@ Fake-News-Detection/
 ## Clone Repository
 
 ```bash
-git clone https://github.com/your-username/Fake-News-Detection.git
+git clone https://github.com/abhay9151/Fake-News-Detection
 
 cd Fake-News-Detection
 ```
@@ -289,7 +289,7 @@ git push origin feature-name
 **Abhay Pratap Singh**
 
 🎓 B.Tech CS
-🏫 KIET Group of Institutions, Ghaziabad
+🏫 KIET University, Ghaziabad
 
 ### Connect with Me
 
