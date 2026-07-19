@@ -1,21 +1,17 @@
 body {
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background: linear-gradient(135deg, #eef2f7 0%, #dfe7f0 100%);
     min-height: 100vh;
 }
 
 .card {
-    backdrop-filter: blur(10px);
+    background: #ffffff;
 }
 
-textarea {
-    resize: none;
+textarea.form-control {
+    resize: vertical;
 }
 
-.btn-primary {
-    background: linear-gradient(90deg, #0d6efd, #0a58ca);
-    border: none;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(90deg, #0a58ca, #084298);
+.list-group-item span:first-child {
+    word-break: break-word;
+    padding-right: 1rem;
 }

@@ -1,8 +1,8 @@
-flask
-pandas
-scikit-learn
-joblib
-requests
-beautifulsoup4
-lime
-gunicorn
+flask==3.0.3
+pandas==2.2.2
+scikit-learn==1.5.1
+joblib==1.4.2
+requests==2.32.3
+beautifulsoup4==4.12.3
+lime==0.2.0.1
+gunicorn==22.0.0
