@@ -1,100 +1,317 @@
-# Fake News Detector
+# 📰 Fake News Detection using Machine Learning
 
-A Flask web app that classifies news text (or a news article URL) as **Real**
-or **Fake** using TF-IDF features and a choice of three scikit-learn models
-(Logistic Regression, Naive Bayes, Random Forest), with optional word-level
-LIME explanations.
+<p align="center">
 
-## Project structure
+![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python)
+![Flask](https://img.shields.io/badge/Flask-Web%20App-black?style=for-the-badge&logo=flask)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange?style=for-the-badge&logo=scikitlearn)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
+
+</p>
+
+---
+
+## 📌 Overview
+
+Fake news has become one of the biggest challenges in the digital era. This project is a **Machine Learning powered Fake News Detection System** that classifies news articles as **Real** or **Fake** using Natural Language Processing (NLP).
+
+The application is built with **Flask** and allows users to either:
+
+- 📝 Enter news text manually
+- 🌐 Paste a news article URL
+- 🤖 Select different Machine Learning models
+- 💡 Generate an explainable prediction using **LIME**
+
+---
+
+## ✨ Features
+
+- 🔍 Detect Fake and Real News
+- 📰 Accepts News Text or URL
+- 🤖 Multiple ML Models
+  - Logistic Regression
+  - Naive Bayes
+  - Random Forest
+- 📊 TF-IDF Vectorization
+- 💡 LIME Explainability
+- 🎨 Clean Responsive UI
+- ⚡ Fast Predictions
+- 🌍 Deployable on Render
+
+---
+
+# 📷 Application Preview
+
+> Add screenshots here
 
 ```
-.
-├── app.py                 # Flask app (loads models, serves predictions)
-├── train_model.py         # Trains the models from Fake.csv / True.csv
-├── Fake.csv / True.csv    # Training data
-├── vectorizer.pkl         # Saved TF-IDF vectorizer (generated)
-├── logistic.pkl           # Saved Logistic Regression model (generated)
-├── naive_bayes.pkl        # Saved Naive Bayes model (generated)
-├── random_forest.pkl      # Saved Random Forest model (generated)
-├── templates/index.html   # UI
-├── static/style.css       # Styling
-├── requirements.txt       # Pinned dependencies
-├── runtime.txt            # Python version pin (for Render)
-└── Procfile                # Start command for Render/Heroku
+Home Page Screenshot
+
+Prediction Result Screenshot
+
+LIME Explanation Screenshot
 ```
 
-## Run it locally
+---
+
+# 🛠 Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| Language | Python |
+| Framework | Flask |
+| Machine Learning | Scikit-Learn |
+| NLP | TF-IDF Vectorizer |
+| Explainability | LIME |
+| Frontend | HTML, CSS |
+| Deployment | Render |
+| Version Control | Git & GitHub |
+
+---
+
+# 🧠 Machine Learning Models
+
+The application supports multiple classifiers.
+
+| Model | Purpose |
+|--------|----------|
+| Logistic Regression | Fast & Accurate |
+| Multinomial Naive Bayes | Text Classification |
+| Random Forest | Ensemble Learning |
+
+---
+
+# 📂 Project Structure
+
+```text
+Fake-News-Detection/
+│
+├── app.py
+├── train_model.py
+├── Fake.csv
+├── True.csv
+│
+├── logistic.pkl
+├── naive_bayes.pkl
+├── random_forest.pkl
+├── vectorizer.pkl
+│
+├── templates/
+│   └── index.html
+│
+├── static/
+│   └── style.css
+│
+├── requirements.txt
+├── runtime.txt
+├── Procfile
+├── README.md
+```
+
+---
+
+# ⚙ Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/your-username/Fake-News-Detection.git
+
+cd Fake-News-Detection
+```
+
+---
+
+## Create Virtual Environment
+
+### Windows
 
 ```bash
 python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
-pip install -r requirements.txt
 
-# Train the models (only needed once, or whenever you change train_model.py)
-python train_model.py
-
-# Start the app
-python app.py
+venv\Scripts\activate
 ```
 
-Then open http://127.0.0.1:5000 in your browser.
+### macOS/Linux
 
-## Retraining the models
+```bash
+python3 -m venv venv
 
-`train_model.py` reads `Fake.csv` and `True.csv`, cleans the text, fits a
-TF-IDF vectorizer (capped at 5000 features), and trains all three models.
-Re-run it any time you change the data or model settings:
+source venv/bin/activate
+```
+
+---
+
+## Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Train Models
+
+Run only once (or whenever the dataset changes)
 
 ```bash
 python train_model.py
 ```
 
-It prints accuracy/precision/recall for each model and the size of each
-saved `.pkl` file, so you can see the trade-off if you change hyperparameters.
+This generates:
 
-**Note on the Random Forest:** it's deliberately capped at
-`n_estimators=100, max_depth=20`. An unbounded forest scores marginally
-higher but produces a 40MB+ pickle file that's slow to run LIME explanations
-against on a low-resource server — not worth it for a small accuracy gain.
+- vectorizer.pkl
+- logistic.pkl
+- naive_bayes.pkl
+- random_forest.pkl
 
-## Deploying to Render (free tier)
+---
 
-1. Push this project to a GitHub repo (make sure the `.pkl` files are
-   committed — see note below).
-2. On [Render](https://render.com), click **New → Web Service** and connect
-   the repo.
-3. Settings:
-   - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `gunicorn app:app --timeout 120 --workers 1 --threads 2`
-     (already set in the `Procfile`, so Render should pick it up automatically)
-   - **Instance Type:** Free
-4. Deploy. First load after idling takes ~1 minute (free instances spin down
-   after 15 minutes of inactivity) — this is normal for Render's free tier.
+## Run Application
 
-### Why this version won't hit the earlier "Internal Server Error"
+```bash
+python app.py
+```
 
-The original version defaulted to LIME's `num_samples=5000` per explanation
-and used a 44MB, unbounded Random Forest. On Render's free instance (512MB
-RAM, 0.1 CPU), that combination could exceed gunicorn's request timeout or
-the memory limit, and Render's proxy would show a generic error page.
+Open your browser:
 
-This version:
-- Caps the Random Forest at 100 trees / depth 20 (~11MB instead of ~44MB).
-- Caps LIME at 300 samples (still gives a meaningful explanation, far less
-  compute than the 5000-sample default).
-- Makes the LIME explanation **opt-in** via a checkbox, so a plain prediction
-  is always fast.
-- Sets an explicit gunicorn `--timeout 120` as extra headroom.
-- Pins all dependency versions so a future build can't silently pull an
-  incompatible library version.
+```
+http://127.0.0.1:5000
+```
 
-If you still hit errors after deploying, check **Render Dashboard → your
-service → Logs** for the actual traceback (out-of-memory vs. timeout vs.
-something else) — that will tell you exactly what to adjust next.
+---
 
-## Model files and Git
+# 🚀 Deployment (Render)
 
-The `.pkl` files are a few MB to ~11MB. Regular `git add`/`commit`/`push`
-handles this fine. If your repo host has strict size limits and rejects the
-push, either regenerate the models on the server as a build step
-(`python train_model.py` in the build command) or use [Git LFS](https://git-lfs.com/).
+### Build Command
+
+```bash
+pip install -r requirements.txt
+```
+
+### Start Command
+
+```bash
+gunicorn app:app --timeout 120 --workers 1 --threads 2
+```
+
+---
+
+# 📊 Dataset
+
+The project uses two datasets:
+
+- **True.csv**
+- **Fake.csv**
+
+Each dataset contains news articles labeled as **Real** or **Fake**.
+
+---
+
+# 💡 Explainable AI
+
+This project integrates **LIME (Local Interpretable Model-Agnostic Explanations)** to explain why a news article is classified as **Fake** or **Real**.
+
+LIME highlights the most influential words contributing to the prediction, making the model more transparent and trustworthy.
+
+---
+
+# 📈 Model Training Pipeline
+
+```
+Dataset
+      │
+      ▼
+Text Cleaning
+      │
+      ▼
+TF-IDF Vectorization
+      │
+      ▼
+Train ML Models
+      │
+      ▼
+Save Models (.pkl)
+      │
+      ▼
+Flask Application
+      │
+      ▼
+Prediction + Explanation
+```
+
+---
+
+# 📌 Future Improvements
+
+- 🔹 Deep Learning Models (LSTM / BERT)
+- 🔹 User Authentication
+- 🔹 News History
+- 🔹 Confidence Score Visualization
+- 🔹 REST API
+- 🔹 Docker Support
+- 🔹 Database Integration
+- 🔹 Dark Mode
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+
+2. Create a feature branch
+
+```bash
+git checkout -b feature-name
+```
+
+3. Commit your changes
+
+```bash
+git commit -m "Added new feature"
+```
+
+4. Push to GitHub
+
+```bash
+git push origin feature-name
+```
+
+5. Open a Pull Request
+
+---
+
+# 👨‍💻 Author
+
+**Abhay Pratap Singh**
+
+🎓 B.Tech CS
+🏫 KIET Group of Institutions, Ghaziabad
+
+### Connect with Me
+
+- 💼 LinkedIn: https://www.linkedin.com/in/abhay-pratap-singh-48121a318/
+- 💻 GitHub: https://github.com/abhay9151
+
+---
+
+# ⭐ If you like this project
+
+Give this repository a ⭐ on GitHub!
+
+It motivates me to build more Machine Learning and AI projects.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+<p align="center">
+Made with ❤️ using Python, Flask, Machine Learning and NLP
+</p>
